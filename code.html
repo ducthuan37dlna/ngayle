@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thiệp 20/10 — Mẹ yêu</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<style>
+  :root{ --bg1:#ff7eb3; --bg2:#ff758c; --bg3:#ffd1ff; --glass:rgba(255,255,255,.18); --card:rgba(255,255,255,.22); --txt:#2b2b2b; --white:#fff; --accent:#ff4d8d; --gold1:#ffd43b; --gold2:#ffe066 }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
+  body{color:var(--txt);overflow-x:hidden;background:radial-gradient(1200px 800px at 10% 10%, #ffffff22, #0000 60%), radial-gradient(900px 700px at 90% 20%, #ffffff22, #0000 60%), linear-gradient(120deg, var(--bg1), var(--bg2) 40%, var(--bg3));animation:bgshift 12s ease-in-out infinite alternate}
+  @keyframes bgshift{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(25deg)}}
+
+  /* background blobs */
+  .blob{position:fixed;z-index:0;pointer-events:none;filter:blur(30px)saturate(1.4)opacity(.55);width:38vmin;height:38vmin;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff8,#0000 60%),#ffdeeb;animation:float 20s ease-in-out infinite}
+  .blob.b2{left:5%;top:10%;background:#d0ebff;animation-duration:28s}
+  .blob.b3{right:8%;bottom:12%;background:#ffd8a8;animation-duration:24s}
+  @keyframes float{0%{transform:translate(0,0)scale(1)}50%{transform:translate(2vw,-2vh)scale(1.08)}100%{transform:translate(0,0)scale(1)}}
+
+  /* envelope intro */
+  .intro{position:relative;z-index:2;width:min(1100px,96vw);margin:6vh auto 0;display:grid;place-items:center}
+  .valentines{position:relative;top:20px;cursor:pointer;animation:up 3s linear infinite;user-select:none}
+  @keyframes up{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+  .envelope{position:relative;width:320px;height:210px;background:#f08080;border-radius:8px;box-shadow:0 16px 40px #0002}
+  .envelope:before{background:#f08080;content:"";position:absolute;width:230px;height:230px;transform:rotate(45deg);top:-118px;left:48px;border-radius:30px 0 0 0}
+  .front{position:absolute;border-right:190px solid #f4978e;border-top:95px solid transparent;border-bottom:110px solid transparent;left:130px;top:6px;width:0;height:0;z-index:10}
+  .front:before{position:absolute;content:"";border-left:320px solid #f8ad9d;border-top:205px solid transparent;left:-130px;top:-95px;width:0;height:0}
+  .card-intro{position:absolute;background:#eae2b7;width:285px;height:175px;top:6px;left:18px;border-radius:8px;box-shadow:-5px -5px 100px #0006}
+  .card-intro:before{content:"";position:absolute;border:3px dotted #003049;width:250px;height:145px;left:14px;top:14px;border-radius:6px}
+  .text{position:absolute;font-family:'Brush Script MT',cursive;font-size:28px;text-align:center;line-height:26px;top:20px;left:95px;color:#003049}
+  .heart{background:#d62828;display:inline-block;height:30px;width:30px;transform:rotate(-45deg);position:absolute;bottom:16px;left:50%;margin-left:-15px}
+  .heart:before,.heart:after{content:"";background:#d62828;border-radius:50%;height:30px;width:30px;position:absolute}
+  .heart:before{top:-15px;left:0}.heart:after{left:15px;top:0}
+  .shadow{position:absolute;width:350px;height:26px;border-radius:50%;background:#0004;top:260px;left:-15px;animation:scale 3s linear infinite;z-index:-1}
+  @keyframes scale{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.86)}}
+  .tap{margin-top:10px;font-weight:700;color:#7b2cbf}
+
+  /* hero */
+  .hero{display:none;position:relative;z-index:2;width:min(1000px,94vw);margin:0 auto 2vh;padding:28px;background:var(--glass);border:1px solid #ffffff55;border-radius:28px;backdrop-filter:blur(10px);box-shadow:0 20px 60px #0003}
+  .title{text-align:center}
+  .title h1{margin:0;font-size:clamp(30px,6.6vw,60px);color:#1c1c1c;text-shadow:0 2px 10px #fff8}
+  .subtitle{margin:8px auto 0;opacity:.9;text-align:center;font-size:clamp(16px,2.4vw,20px)}
+
+  .card{position:relative;padding:16px;border-radius:20px;background:var(--card);border:1px solid #ffffff66;box-shadow:inset 0 0 1px #fff8,0 8px 20px #0001;max-width:880px;margin:18px auto 0}
+  .label{font-weight:800;color:#6d184c;display:flex;align-items:center;gap:8px;justify-content:center}
+
+  .gift-wrap{display:flex;align-items:center;justify-content:center;margin:16px auto 8px}
+  .gift{position:relative;width:clamp(220px,28vmin,300px);height:clamp(160px,21vmin,210px);cursor:pointer;transform-style:preserve-3d;transition:transform .15s ease;opacity:0;transform:scale(.92)}
+  .gift.show{animation:giftIn .9s ease forwards}
+  @keyframes giftIn{from{opacity:0;transform:translateY(10px)scale(.92)}to{opacity:1;transform:translateY(0)scale(1)}}
+  .gift:hover{transform:translateY(-3px)scale(1.02)}
+  .box{position:absolute;left:0;right:0;bottom:0;height:66%;background:linear-gradient(180deg,#ff5fa3 0%,#ff6fae 40%,#ff4d8d 100%),repeating-linear-gradient(135deg,#ffffff20 0 10px,#00000010 10px 20px);border-radius:16px;box-shadow:inset 0 -8px 0 #e64980,0 12px 30px #0004;overflow:hidden}
+  .box:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,#ffffff40 0%,#ffffff10 30%,#ffffff00 50%,#ffffff25 70%,#ffffff00 100%);mix-blend-mode:screen;transform:translateX(-100%);animation:gloss 3.4s ease-in-out infinite}
+  @keyframes gloss{0%{transform:translateX(-100%)}60%{transform:translateX(120%)}100%{transform:translateX(120%)}}
+  .ribbon{position:absolute;left:50%;transform:translateX(-50%);top:0;width:28px;height:100%;background:linear-gradient(180deg,var(--gold2),var(--gold1) 40%,#f1c40f 60%,var(--gold2));border-radius:10px;box-shadow:inset 0 0 6px #0003,0 0 20px #ffd43b66}
+  .lid{position:absolute;top:-16px;left:0;right:0;height:42%;background:linear-gradient(180deg,#ff98c3,#ff79b4 50%,#ff4d8d);border-radius:16px;box-shadow:0 6px 0 #e64980,0 10px 26px #0004;transition:transform 1200ms ease}
+  .knot{position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:82px;height:38px}
+  .knot:before,.knot:after{content:"";position:absolute;width:38px;height:38px;background:linear-gradient(180deg,var(--gold2),var(--gold1));border-radius:50% 50% 0 50%;box-shadow:inset 0 0 6px #0003;transform:rotate(42deg)}
+  .knot:after{right:0;transform:rotate(-42deg)}
+  .gift.open .lid{transform:translateY(-74px)rotate(-10deg)}
+
+  .controls{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px;justify-content:center;align-items:center}
+  button{padding:11px 14px;border:none;border-radius:14px;font-weight:800;cursor:pointer;background:var(--accent);color:var(--white);box-shadow:0 8px 16px #ff4d8d55;transition:transform .08s ease,filter .2s ease}
+  button:hover{transform:translateY(-2px)scale(1.02);filter:brightness(1.05)}
+  .ghost{background:#fff;color:#8a2b59;border:1px solid #eeaeca;box-shadow:0 8px 16px #0001}
+  .wish{margin:12px auto 0;padding:14px;border-radius:18px;background:#ffffffcf;border:1px dashed #e599f7;min-height:48px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(16px,2.8vw,20px);max-width:680px}
+
+  .hearts{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:4;overflow:hidden}
+  .hearts span{position:absolute;color:#ff3b81;font-size:18px;animation:rise 6s linear forwards;filter:drop-shadow(0 6px 8px #ff3b8180);opacity:.85}
+  @keyframes rise{0%{transform:translateY(0)scale(.85)rotate(0);opacity:0}10%{opacity:1}100%{transform:translateY(-120vh)scale(1.15)rotate(16deg);opacity:0}}
+
+  #fireworks,#confetti{position:fixed;inset:0;pointer-events:none;z-index:3}
+  canvas{display:block;width:100%;height:100%}
+
+  .footer{text-align:center;margin:16px auto 26px;opacity:.9;font-size:14px;color:#3d1f2b}
+
+  /* note overlay */
+  .note-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:10;background:rgba(0,0,0,.25)}
+  .note-overlay.show{display:flex}
+  .note{position:relative;width:min(1100px,96vw);background:linear-gradient(135deg,#fff,#fff7fd);border:1px solid #ffc9e9;border-radius:28px;box-shadow:0 24px 100px #0006,inset 0 0 1px #fff8;padding:min(40px,4vw)}
+  .note-body{font-size:clamp(18px,2.6vw,24px);line-height:1.9;color:#242424;white-space:normal}
+  .line{display:flex;align-items:flex-start;gap:.6em;margin:.4em 0}
+  .line .ico{flex:0 0 auto}
+  .line .txt{flex:1 1 auto}
+  .note .close{position:absolute;right:14px;top:12px;border:none;background:#fff;border:1px solid #ffd6e8;border-radius:12px;padding:8px 10px;cursor:pointer}
+
+  /* spin ring */
+  .spin-ring{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(58vmin,520px);height:min(58vmin,520px);pointer-events:none;z-index:12}
+  .spin-ring .orbit{position:absolute;inset:0;border-radius:50%;animation:spin 12s linear infinite}
+  .spin-ring .orbit.slow{animation-duration:18s}
+  .spin-ring .orbit.fast{animation-duration:8s}
+  .spin-ring .dot{position:absolute;left:50%;top:50%;transform-origin:-220px 0;font-size:clamp(18px,3.4vmin,28px);filter:drop-shadow(0 4px 8px rgba(255,60,140,.45))}
+  @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+  /* big love */
+  .big-love{position:fixed;inset:0;display:none;place-items:center;z-index:13;pointer-events:none}
+  .big-love.show{display:grid;animation:loveFade 3.8s ease forwards}
+  .big-love h1{font-size:clamp(48px,8vw,96px);margin:0;color:#b5179e;text-shadow:0 8px 30px #0003;background:#fff8;padding:.1em .4em;border-radius:20px}
+  @keyframes loveFade{0%{opacity:0;transform:scale(.85)}15%{opacity:1;transform:scale(1)}70%{opacity:1}100%{opacity:0;transform:scale(1.06)}}
+
+  /* flower background */
+  .flower-bg{position:fixed;inset:0;z-index:1;pointer-events:none;display:none}
+  .flower-bg.show{display:block}
+  .flower{position:absolute;font-size:clamp(20px,3.6vmin,38px);opacity:.85;animation:floatFlower 18s linear infinite}
+  @keyframes floatFlower{from{transform:translateY(110vh)rotate(0)}to{transform:translateY(-15vh)rotate(360deg)}}
+
+  /* === Cuộn phim ảnh nghiêng (film strip) — bản đẹp hơn === */
+  .film-strip { display:flex; justify-content:center; align-items:flex-start; flex-wrap:wrap; gap:18px; margin: 14px auto 6px; padding: 10px 14px; max-width: 940px; perspective: 1000px; }
+  .film-strip .frame{ position:relative; padding:12px 12px 34px; background:#fff; border-radius:16px; border:1px solid #ffd6e8; box-shadow:0 16px 40px #00000022; }
+  .film-strip .frame::before, .film-strip .frame::after{ content:""; position:absolute; left:10px; right:10px; height:10px; background: radial-gradient(circle at 6px 50%, #0008 3px, transparent 3.5px) repeat-x; opacity:.18; }
+  .film-strip .frame::before{ top:6px } .film-strip .frame::after{ bottom:28px }
+  .film-strip img { width: 160px; height: 200px; object-fit: cover; border-radius: 12px; box-shadow: 0 12px 24px rgba(0,0,0,0.28); border: 0; transition: transform 0.45s ease, box-shadow 0.35s ease, filter .35s ease; filter: saturate(.95) contrast(1.02) brightness(.99); transform-origin: center; position: relative; }
+  .film-strip .frame:nth-child(odd) img { transform: rotate(-6deg) translateY(4px); }
+  .film-strip .frame:nth-child(even) img{ transform: rotate(6deg) translateY(-4px); }
+  .film-strip img:hover { transform: scale(1.06) rotate(0deg); box-shadow: 0 18px 46px rgba(0,0,0,0.45); z-index:2; filter: saturate(1.1) brightness(1.02); }
+  .film-strip figcaption{ position:absolute; left:12px; right:12px; bottom:6px; text-align:center; font-size:13px; color:#8a2b59; opacity:.9 }
+  @keyframes slideFilm { from {opacity: 0; transform: translateY(40px) rotate(-3deg);} to {opacity: 1; transform: translateY(0) rotate(0);} }
+  .film-strip.show .frame { animation: slideFilm .8s ease both; }
+  .film-strip.show .frame:nth-child(2){animation-delay:0.08s}
+  .film-strip.show .frame:nth-child(3){animation-delay:0.16s}
+  .film-strip.show .frame:nth-child(4){animation-delay:0.24s}
+
+  /* === Orbit gallery: 4 ảnh xoay quanh lá thư === */
+  .orbit-gallery{position:fixed;inset:0;display:none;pointer-events:none;z-index:11}
+  .orbit-gallery.show{display:block}
+  .orbit-photo{position:absolute;left:50%;top:50%;width:120px;height:150px;object-fit:cover;border-radius:12px;border:6px solid #fff;box-shadow:0 18px 46px rgba(0,0,0,.35);filter:saturate(1.05) contrast(1.02) brightness(.98);animation:orbitSpin 18s linear infinite, orbitBob 6s ease-in-out infinite}
+  @keyframes orbitSpin{from{transform:rotate(var(--start,0deg)) translate(var(--r,240px)) rotate(calc(-1*var(--start,0deg)));}to{transform:rotate(calc(var(--start,0deg) + 360deg)) translate(var(--r,240px)) rotate(calc(-1*(var(--start,0deg) + 360deg)));}}
+  @keyframes orbitBob{0%,100%{filter:brightness(.98)}50%{filter:brightness(1.06)}}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<canvas id="fireworks"></canvas>
+<canvas id="confetti"></canvas>
+<div id="hearts" class="hearts"></div>
+<div id="flowerBg" class="flower-bg"></div>
+<div id="bigLove" class="big-love"><h1>Con yêu Mẹ ❤️</h1></div>
+
+<section class="intro" id="intro">
+  <div class="valentines animate__animated animate__fadeInDown" id="envelope">
+    <div class="envelope"></div>
+    <div class="front"></div>
+    <div class="card-intro">
+      <div class="text">Happy<br>Women's<br>Day!</div>
+      <div class="heart"></div>
+    </div>
+    <div class="shadow"></div>
+  </div>
+  <div class="tap">Chạm để mở thiệp ✨</div>
+</section>
+
+<section class="hero" id="hero">
+  <div class="title">
+    <h1>🌷 Chúc mừng 20/10  <span style="color:#b5179e">Mẹ Quế</span> 🌷</h1>
+    <p class="subtitle">Yêu thương, biết ơn và rạng rỡ hôm nay & mỗi ngày.</p>
+  </div>
+
+  <div class="card">
+    <div class="label">🎁 Quà dành cho <strong>Mẹ Quế</strong></div>
+    <div class="gift-wrap">
+      <div class="gift" id="giftMe">
+        <div class="box"></div>
+        <div class="ribbon"></div>
+        <div class="lid"></div>
+        <div class="knot"></div>
+      </div>
+    </div>
+
+    <!-- CUỘN PHIM ẢNH -->
+    <div class="film-strip" id="filmStrip">
+      <figure class="frame">
+        <img src="https://i.postimg.cc/W1J32Gq2/anh1.jpg" alt="Mẹ & Con 1" loading="lazy" onclick="openLightbox(this.src)" style="object-position:center top">
+        <figcaption>Khoảnh khắc đáng yêu 🥰</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="https://i.postimg.cc/Qt6sgCWL/anh2.jpg" alt="Mẹ & Con 2" loading="lazy" onclick="openLightbox(this.src)" style="object-position:center top">
+        <figcaption>Nụ cười của Mẹ 🌸</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="https://i.postimg.cc/rsKTfTSs/anh3.jpg" alt="Mẹ & Con 3" loading="lazy" onclick="openLightbox(this.src)" style="object-position:center">
+        <figcaption>Yêu thương giản dị 💖</figcaption>
+      </figure>
+      <figure class="frame">
+        <img src="https://i.postimg.cc/T38xJZhR/anh4.jpg" alt="Mẹ & Con 4" loading="lazy" onclick="openLightbox(this.src)" style="object-position:center">
+        <figcaption>Kỷ niệm ngọt ngào ✨</figcaption>
+      </figure>
+    </div>
+
+    <div class="controls">
+      <button class="purple" id="btnOpenGift">Mở quà ✨</button>
+      <button id="btnMusic" class="ghost">Nhạc nền ♪</button>
+      <button id="btnShare" class="ghost">Chia sẻ 📤</button>
+    </div>
+
+    <div class="wish" id="meWish">Chúc Mừng Ngày Lễ Cuả Mẹ</div>
+  </div>
+</section>
+
+<p class="footer">Chúc Mẹ 20/10 thật rực rỡ! 🇻🇳</p>
+
+<div id="noteOverlay" class="note-overlay" onclick="closeNote(event)">
+  <div class="note" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+    <button class="close" id="closeNote">Đóng ✖</button>
+    <div class="note-body" id="noteBody"></div>
+  </div>
+</div>
+
+<div id="ytplayer" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;"></div>
+<!-- Ảnh xoay quanh lá thư -->
+<div id="orbitGallery" class="orbit-gallery"></div>
+
+<!-- Lightbox xem ảnh lớn -->
+<div id="lightbox" style="position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9999" onclick="this.style.display='none'">
+  <img id="lightboxImg" src="" alt="Xem ảnh" style="max-width:92vw;max-height:92vh;border-radius:16px;box-shadow:0 24px 80px #000a"/>
+</div>
+
+<script>
+// ========= utilities =========
+const $ = (s)=>document.querySelector(s);
+const on = (el,ev,fn)=> el && el.addEventListener(ev,fn);
+const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
+
+// ========= elements =========
+const intro=$('#intro'), hero=$('#hero'), envelope=$('#envelope');
+const gift=$('#giftMe'), btnOpenGift=$('#btnOpenGift');
+const noteOverlay=$('#noteOverlay'), noteBody=$('#noteBody'), btnCloseNote=$('#closeNote');
+const btnMusic=$('#btnMusic'), btnShare=$('#btnShare');
+const filmStrip=$('#filmStrip');
+
+// ========= letter content =========
+const LETTER_LINES=[
+  "Thân gửi Mẹ yêu,",
+  "Ngày 20/10 lại đến, con muốn dừng lại một chút giữa bộn bề để nói lời cảm ơn Mẹ.",
+  "Cảm ơn Mẹ vì những hi sinh lặng thầm, những bữa cơm nóng, những lời dặn dò ấm áp và cả những lần nghiêm khắc để con lớn lên vững vàng.",
+  "Con biết có những lúc con chưa ngoan, chưa giỏi như Mẹ mong, nhưng trong lòng con luôn có Mẹ – là điểm tựa bình yên nhất.",
+  "Nhờ tình yêu và niềm tin của Mẹ, con học được cách kiên trì, biết yêu thương và dám ước mơ.",
+  "Con chúc Mẹ thật nhiều sức khỏe, bình an, nụ cười luôn nở trên môi mỗi sớm mai; mong những điều đẹp đẽ nhất sẽ đến với Mẹ hôm nay và mỗi ngày sau đó.",
+  "Con yêu Mẹ rất nhiều."
+];
+const ICONS=['🌸','💖','🌷','✨','💞','⭐','💓'];
+
+// ========= intro: envelope click =========
+on(envelope,'click',()=>{
+  envelope.classList.add('animate__animated','animate__fadeOutUp');
+  setTimeout(()=>{
+    intro.style.display='none';
+    hero.style.display='block';
+    gift.classList.add('show');
+    ensureMusic(true); // mở nhạc có tiếng sau thao tác chạm
+    fire(2);
+  },900);
+});
+
+// ========= open gift -> show note + film strip =========
+async function typeLineSlow(line,wrap,base=34){
+  const el=document.createElement('div'); el.className='line';
+  const ico=document.createElement('span'); ico.className='ico'; ico.textContent=ICONS[wrap.childElementCount%ICONS.length];
+  const txt=document.createElement('span'); txt.className='txt';
+  el.appendChild(ico); el.appendChild(txt); wrap.appendChild(el);
+  for(let i=0;i<line.length;i++){
+    txt.textContent+=line[i];
+    let d=base; if(/[,.!?…;:–—]/.test(line[i])) d+=160; await sleep(d);
+  }
+  hearts(8); await sleep(220);
+}
+async function typeLetterLines(lines,wrap){ wrap.textContent=''; for(const ln of lines){ await typeLineSlow(ln,wrap,34);} }
+function showNote(){ noteOverlay.classList.add('show'); }
+function closeNote(e){ if(e) e.stopPropagation(); noteOverlay.classList.remove('show'); stopSpinRing(); stopOrbitPhotos(); }
+on(btnCloseNote,'click',()=> closeNote());
+
+function openGift(){
+  if(!gift.classList.contains('open')){
+    gift.classList.add('open');
+    playChime();
+    hearts(80); confetti(200); fire(4);
+  }
+  // hiện dải cuộn phim
+  filmStrip.classList.add('show');
+
+  // mở thư + gõ
+  showNote();
+  startSpinRing();
+  startOrbitPhotos();
+  typeLetterLines(LETTER_LINES, noteBody).then(()=> finishSequence());
+}
+on(btnOpenGift,'click',openGift); on(gift,'click',openGift);
+
+// ========= effects =========
+const heartsRoot=$('#hearts');
+function hearts(count=50){
+  for(let i=0;i<count;i++){
+    const s=document.createElement('span'); s.textContent=['❤','💖','💕','💗','💓','💞'][Math.floor(Math.random()*6)];
+    s.style.left=(Math.random()*100)+'%'; s.style.bottom='-10vh'; s.style.fontSize=(16+Math.random()*26)+'px';
+    s.style.animationDuration=(5+Math.random()*4)+'s'; s.style.animationDelay=(Math.random()*1)+'s';
+    heartsRoot.appendChild(s); setTimeout(()=>s.remove(),9500);
+  }
+}
+const confettiCanvas=document.getElementById('confetti'); const ctxC=confettiCanvas.getContext('2d'); let confs=[];
+function resizeC(){ confettiCanvas.width=innerWidth; confettiCanvas.height=innerHeight } addEventListener('resize',resizeC); resizeC();
+function confetti(n=200){ confs=[]; for(let i=0;i<n;i++){ confs.push({x:Math.random()*confettiCanvas.width,y:-20-Math.random()*innerHeight*0.4,vx:(Math.random()-.5)*3,vy:2+Math.random()*3.5,w:6+Math.random()*8,h:10+Math.random()*14,rot:Math.random()*Math.PI,vr:(Math.random()-.5)*0.3,color:`hsl(${Math.random()*360},90%,60%)`}); } }
+(function tickConfetti(){ ctxC.clearRect(0,0,confettiCanvas.width,confettiCanvas.height); confs.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; if(p.y>innerHeight+40){p.y=-20;p.x=Math.random()*innerWidth;} ctxC.save(); ctxC.translate(p.x,p.y); ctxC.rotate(p.rot); ctxC.fillStyle=p.color; ctxC.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctxC.restore(); }); requestAnimationFrame(tickConfetti); })();
+const fw=document.getElementById('fireworks'); const fctx=fw.getContext('2d'); function resizeFW(){ fw.width=innerWidth; fw.height=innerHeight } addEventListener('resize',resizeFW); resizeFW(); let fireworks=[];
+function boom(x,y,color){ for(let i=0;i<120;i++){ const a=Math.random()*Math.PI*2,s=Math.random()*5+2; fireworks.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:60+Math.random()*40,color}); } }
+(function tickFW(){ fctx.clearRect(0,0,fw.width,fw.height); fireworks.forEach(p=>{ p.life-=1; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; fctx.globalCompositeOperation='lighter'; fctx.fillStyle=p.color; fctx.beginPath(); fctx.arc(p.x,p.y,2,0,Math.PI*2); fctx.fill(); }); fireworks=fireworks.filter(p=>p.life>0); requestAnimationFrame(tickFW); })();
+function fire(times=3){ for(let i=0;i<times;i++){ setTimeout(()=>{ boom(Math.random()*innerWidth*0.8+innerWidth*0.1, Math.random()*innerHeight*0.4+innerHeight*0.15, `hsl(${Math.random()*360},100%,60%)`); }, i*500); } }
+
+// spin ring
+function startSpinRing(){ if(document.getElementById('spinRing')) return; const ring=document.createElement('div'); ring.id='spinRing'; ring.className='spin-ring'; const orbits=['orbit slow','orbit','orbit fast']; orbits.forEach((cls,oi)=>{ const o=document.createElement('div'); o.className=cls; const items=['❤','💖','✨','🌸','💞','⭐','🌷','💓','✨','💗','⭐','💕']; items.forEach((sym,i)=>{ const d=document.createElement('div'); d.className='dot'; d.textContent=sym; const angle=(360/items.length)*i+(oi*10); d.style.transform=`rotate(${angle}deg) translate(220px) rotate(-${angle}deg)`; o.appendChild(d); }); ring.appendChild(o); }); document.body.appendChild(ring); }
+function stopSpinRing(){ const r=document.getElementById('spinRing'); if(r) r.remove(); }
+
+// finish: big love + flower bg
+function finishSequence(){ stopSpinRing(); document.getElementById('bigLove').classList.add('show'); startFlowerBg(); setTimeout(()=>{ document.getElementById('bigLove').classList.remove('show'); },4200); }
+function startFlowerBg(){ const bg=document.getElementById('flowerBg'); if(bg.dataset.ready){ bg.classList.add('show'); return;} const emjs=['🌸','🌺','🌷','💮','🌼','💐']; for(let i=0;i<36;i++){ const f=document.createElement('div'); f.className='flower'; f.textContent=emjs[i%emjs.length]; f.style.left=(Math.random()*100)+'%'; f.style.animationDuration=(14+Math.random()*10)+'s'; f.style.animationDelay=(Math.random()*6)+'s'; bg.appendChild(f);} bg.dataset.ready='1'; bg.classList.add('show'); }
+
+// orbit photos around note
+function startOrbitPhotos(){
+  const og=document.getElementById('orbitGallery'); if(!og) return; og.innerHTML='';
+  const imgs=[...document.querySelectorAll('#filmStrip img')].slice(0,4);
+  const radii=[240,230,220,210];
+  imgs.forEach((im,idx)=>{
+    const p=document.createElement('img');
+    p.src=im.currentSrc||im.src; p.alt=im.alt||'photo';
+    p.className='orbit-photo';
+    p.style.setProperty('--r',radii[idx]+"px");
+    p.style.setProperty('--start', (idx*90)+"deg");
+    p.style.animationDelay = (idx*0.12)+'s';
+    og.appendChild(p);
+  });
+  og.classList.add('show');
+}
+function stopOrbitPhotos(){ const og=document.getElementById('orbitGallery'); if(og){ og.classList.remove('show'); og.innerHTML=''; } }
+
+// ========= share =========
+on(btnShare,'click', async ()=>{ const shareData={title:document.title,text:'Thiệp 20/10 gửi Mẹ 💝',url:location.href}; try{ if(navigator.share){ await navigator.share(shareData);} else if(navigator.clipboard){ await navigator.clipboard.writeText(location.href); alert('Đã copy link thiệp vào clipboard!'); } else { prompt('Copy link thiệp:', location.href); } }catch(e){} });
+
+// ========= chime =========
+function playChime(){ try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const now=ctx.currentTime; const g=ctx.createGain(); g.connect(ctx.destination); g.gain.setValueAtTime(0.0001,now); const notes=[1046.5,1318.5,1568.0]; notes.forEach((freq,i)=>{ const o=ctx.createOscillator(); const og=ctx.createGain(); o.type='sine'; o.frequency.value=freq; o.connect(og); og.connect(g); const t0=now+i*0.02,t1=t0+0.35,t2=t1+0.25; og.gain.setValueAtTime(0,t0); og.gain.linearRampToValueAtTime(0.6,t0+0.03); og.gain.exponentialRampToValueAtTime(0.0001,t2); o.start(t0); o.stop(t2+0.02); }); g.gain.exponentialRampToValueAtTime(1.0,now+0.05); }catch(e){} }
+
+// ========= YouTube BGM (mobile-friendly robust) =========
+const YT_VIDEO_ID='cXpP9v3IQk8'; const YT_LIST_ID='RDcXpP9v3IQk8';
+let ytPlayer=null, ytReady=false, musicOn=false, wantUnmute=false;
+(function(){ const tag=document.createElement('script'); tag.src='https://www.youtube.com/iframe_api'; document.head.appendChild(tag); })();
+window.onYouTubeIframeAPIReady=function(){
+  ytPlayer=new YT.Player('ytplayer',{ height:'1', width:'1', videoId:YT_VIDEO_ID,
+    playerVars:{autoplay:1,controls:0,loop:1,modestbranding:1,rel:0,playsinline:1,listType:'playlist',list:YT_LIST_ID,playlist:YT_LIST_ID},
+    events:{ onReady: ()=>{ ytReady=true; try{ ytPlayer.getIframe().setAttribute('allow','autoplay'); }catch(e){}
+      try{ ytPlayer.mute(); ytPlayer.playVideo(); }catch(e){}
+      if(wantUnmute){ ensureMusic(false); }
+    }}
+  });
+};
+let _musicRetry=null, _musicTries=0, _audioCtx=null;
+function unlockAudio(){ try{ if(!_audioCtx){ _audioCtx = new (window.AudioContext||window.webkitAudioContext)(); } if(_audioCtx.state === 'suspended'){ _audioCtx.resume(); } const o=_audioCtx.createOscillator(); const g=_audioCtx.createGain(); g.gain.value=0.00001; o.connect(g); g.connect(_audioCtx.destination); o.start(); o.stop(_audioCtx.currentTime+0.02);}catch(e){} }
+function reallyPlay(){ try{ if(ytReady && ytPlayer && ytPlayer.playVideo){ ytPlayer.unMute(); ytPlayer.setVolume(45); ytPlayer.playVideo(); musicOn=true; return true; } }catch(e){} return false; }
+function ensureMusic(fromGesture=false){ wantUnmute=true; if(fromGesture) unlockAudio(); if(reallyPlay()) return; if(_musicRetry) clearInterval(_musicRetry); _musicTries=0; _musicRetry=setInterval(()=>{ _musicTries++; if(reallyPlay()||_musicTries>30){ clearInterval(_musicRetry);} },250); const oncePlay=()=>{ reallyPlay(); document.removeEventListener('touchend',oncePlay,{passive:true}); document.removeEventListener('click',oncePlay,true); }; document.addEventListener('touchend',oncePlay,{passive:true}); document.addEventListener('click',oncePlay,true); }
+on(btnMusic,'click',()=>{ if(!musicOn) ensureMusic(true); else { try{ ytPlayer.pauseVideo(); }catch(e){} musicOn=false; } });
+
+// === optional: direct links placeholder if needed later
+const EXTERNAL_IMG = {0:null,1:null,2:null,3:null};
+(function applyExternal(){ const frames=document.querySelectorAll('#filmStrip img'); frames.forEach((im,idx)=>{ const url=EXTERNAL_IMG[idx]; if(url&&/\.(png|jpe?g|webp|gif)(\?.*)?$/i.test(url)){ im.dataset.full=url; im.src=url; } }); })();
+
+function openLightbox(src){ const lb=document.getElementById('lightbox'); const im=document.getElementById('lightboxImg'); im.src=src; lb.style.display='flex'; }
+</script>
+</body>
+</html>
